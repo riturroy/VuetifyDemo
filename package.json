@@ -2,7 +2,7 @@
   "name": "demo-vuetify-app",
   "version": "0.1.0",
   "private": true,
-  "BASE_URL":"/",
+   "baseUrl": './',
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
