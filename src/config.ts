@@ -1,0 +1,1 @@
+export const API_ENDPOINT = "https://swapi.py4e.com/api/"; 
