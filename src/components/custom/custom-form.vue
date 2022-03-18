@@ -61,27 +61,11 @@
                 <p>Division: {{ skills.join(",") }}</p>
                 <v-row class="light--text">
                   <v-col cols="6" md="12" class="d-flex">
-                    <v-checkbox
+                    <v-checkbox v-for="department in departments" :key="department"
                       class="mr-2"
                       v-model="skills"
-                      label="Development"
-                      value="Development"
-                    >
-                    </v-checkbox>
-
-                    <v-checkbox
-                      class="mr-2"
-                      v-model="skills"
-                      label="Mangement"
-                      value="Mangement"
-                    >
-                    </v-checkbox>
-
-                    <v-checkbox
-                      class="mr-2"
-                      v-model="skills"
-                      label="Training"
-                      value="Training"
+                      :label="department"
+                      :value="department"
                     >
                     </v-checkbox>
                   </v-col>
@@ -100,7 +84,20 @@
                   </v-col>
                 </v-row>
               </v-col>
-
+        <v-col cols="12" md="12">
+          <p>
+            Department : {{ toggleExclusive }}
+          </p>
+        <v-btn-toggle
+          v-model="toggleExclusive"
+          multiple
+          rounded
+        >
+          <v-btn v-for="department in departments" :key="department" :value="department">
+            {{department}}
+          </v-btn>
+        </v-btn-toggle>
+        </v-col>
               <v-col cols="12">
                 <p>Experience</p>
                 <v-slider
@@ -301,6 +298,7 @@ export default {
       rangeDate: ["2022-01-10", "2022-09-20"],
       autoUpdate: true,
       detailedSkills: ["HTML", "CSS/SCSS", "JavaScript"],
+      departments:['Development', 'Management', 'Training'],
       isUpdating: false,
       skillSet: [
         { header: "Design" },
@@ -314,6 +312,7 @@ export default {
         { name: "Angular", group: "Programming", avatar: srcs[1] },
         { name: "Vue", group: "Programming", avatar: srcs[3] },
       ],
+      toggleExclusive:[],
       entries: [],
       model: null,
       search: null,
