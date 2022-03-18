@@ -4,5 +4,5 @@ module.exports = defineConfig({
     'vuetify'
   ],
   lintOnSave: false,
-  publicPath: '/dist/'
+  publicPath: process.env.NODE_ENV === "production" ? "/VuetifyDemo/" : "/",
 })
