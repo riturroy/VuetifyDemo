@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-card color="blue-grey darken-1" dark :loading="isUpdating">
+      <v-card :loading="isUpdating">
         <template v-slot:progress>
           <v-progress-linear
             absolute
@@ -15,22 +15,22 @@
             <v-row>
               <v-col cols="12" md="4">
                 <v-text-field
-                  v-model="firstname"
+                  v-model="firstText"
                   :disabled="isUpdating"
-                  :rules="nameRules"
+                  :rules="firstTextRules"
                   :counter="10"
-                  label="First name"
+                  label="First text"
                   required
                 ></v-text-field>
               </v-col>
 
               <v-col cols="12" md="4">
                 <v-text-field
-                  v-model="lastname"
+                  v-model="secondText"
                   :disabled="isUpdating"
-                  :rules="nameRules"
+                  :rules="firstTextRules"
                   :counter="10"
-                  label="Last name"
+                  label="Second text"
                   required
                 ></v-text-field>
               </v-col>
@@ -48,60 +48,59 @@
                 <v-textarea
                   outlined
                   :disabled="isUpdating"
-                  :rules="descriptionRules"
-                  v-model="description"
+                  :rules="textareaRules"
+                  v-model="textarea"
                   name="input-7-4"
-                  label="Description"
+                  label="textarea"
                   required
                   :counter="250"
                 ></v-textarea>
               </v-col>
 
               <v-col cols="12" md="12">
-                <p>Division: {{ skills.join(",") }}</p>
+                <p>Checkbox: {{ checkboxes.join(",") }}</p>
                 <v-row class="light--text">
                   <v-col cols="6" md="12" class="d-flex">
-                    <v-checkbox v-for="department in departments" :key="department"
+                    <v-checkbox
+                      v-for="department in simpleCheckboxes"
+                      :key="department"
                       class="mr-2"
-                      v-model="skills"
+                      v-model="checkboxes"
                       :label="department"
                       :value="department"
                     >
                     </v-checkbox>
                   </v-col>
-
-                  <v-col cols="6" md="6">
-                    <p>Gender: {{ gender }}</p>
-                    <v-radio-group v-model="gender" row>
-                      <v-radio
-                        v-for="gender in genders"
-                        :key="gender"
-                        :label="gender"
-                        :value="gender"
-                        color="white"
-                      ></v-radio>
-                    </v-radio-group>
-                  </v-col>
                 </v-row>
               </v-col>
-        <v-col cols="12" md="12">
-          <p>
-            Department : {{ toggleExclusive }}
-          </p>
-        <v-btn-toggle
-          v-model="toggleExclusive"
-          multiple
-          rounded
-        >
-          <v-btn v-for="department in departments" :key="department" :value="department">
-            {{department}}
-          </v-btn>
-        </v-btn-toggle>
-        </v-col>
+              <v-col cols="12" md="12">
+                  <p>Radio Button: {{ radioBtn }}</p>
+                  <v-radio-group v-model="radioBtn" row mandatory>
+                    <v-radio
+                      v-for="radioBtn in radioBtns"
+                      :key="radioBtn"
+                      :label="radioBtn"
+                      :value="radioBtn"
+                    ></v-radio>
+                  </v-radio-group>
+              </v-col>
+              
+              <v-col cols="12" md="12">
+                <p>Custom group button : {{ toggleExclusive }}</p>
+                <v-btn-toggle v-model="toggleExclusive" multiple rounded mandatory>
+                  <v-btn
+                    v-for="department in simpleCheckboxes"
+                    :key="department"
+                    :value="department"
+                  >
+                    {{ department }}
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
               <v-col cols="12">
-                <p>Experience</p>
+                <p>Range Slider</p>
                 <v-slider
-                  v-model="experience"
+                  v-model="rangeSlider"
                   :thumb-size="24"
                   thumb-label="always"
                   color="warning"
@@ -116,17 +115,17 @@
                   required
                   :items="states"
                   :menu-props="{ maxHeight: '400' }"
-                  label="Preferred Location"
+                  label="Multiselect dropdown"
                   multiple
-                  hint="Pick upto 3 preffered location"
+                  hint="Pick upto 3 options"
                   persistent-hint
                 ></v-select>
               </v-col>
               <v-col cols="12" md="12">
                 <v-switch
-                  v-model="relocate"
+                  v-model="switchBtn"
                   inset
-                  label="Ready to relocate"
+                  :label="switchBtn?'ON':'OFF'"
                 ></v-switch>
               </v-col>
               <v-col cols="12" md="12">
@@ -134,26 +133,23 @@
                   v-model="startDate"
                   @clear="clearStartDate"
                   @change="setStartDate"
-                  label="Expected Start Date"
+                  label="Single Date"
                   :min="minStartDate"
                   :max="maxStartDate"
                   required
                 ></single-date-picker>
               </v-col>
-               <v-col cols="12" md="12">
-                <range-date-picker
-                  required
-                ></range-date-picker>
+              <v-col cols="12" md="12">
+                <range-date-picker required></range-date-picker>
               </v-col>
               <v-col cols="12">
                 <v-autocomplete
-                  v-model="detailedSkills"
+                  v-model="detailedcheckboxes"
                   :disabled="isUpdating"
-                  :items="skillSet"
+                  :items="checkboxeset"
                   filled
                   chips
-                  color="blue-grey lighten-2"
-                  label="Skills"
+                  label="checkboxes"
                   item-text="name"
                   item-value="name"
                   multiple
@@ -166,9 +162,6 @@
                       @click="data.select"
                       @click:close="remove(data.item)"
                     >
-                      <!-- <v-avatar left>
-                      <v-img :src="data.item.avatar"></v-img>
-                    </v-avatar> -->
                       {{ data.item.name }}
                     </v-chip>
                   </template>
@@ -194,16 +187,15 @@
                   </template>
                 </v-autocomplete>
               </v-col>
-              <v-col cols="12">
+              <!--<v-col cols="12">
                 <v-autocomplete
                   v-model="model"
                   :items="items"
                   :loading="isLoading"
                   :search-input.sync="search"
-                  color="white"
                   hide-no-data
                   hide-selected
-                  item-text="Description"
+                  item-text="textarea"
                   item-value="API"
                   label="Public APIs"
                   placeholder="Start typing to Search"
@@ -226,22 +218,19 @@
                     </v-list-item>
                   </v-list>
                 </v-expand-transition>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
         </v-form>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-grey darken-3" depressed @click="resetForm">
-            Reset
-          </v-btn>
+          <v-btn depressed @click="resetForm"> Reset </v-btn>
           <v-btn
             :disabled="isUpdating"
             :loading="isUpdating"
-            color="blue-grey darken-3"
             depressed
-            @click="isUpdating = true"
+            @click="onSave"
           >
             Save
           </v-btn>
@@ -257,7 +246,7 @@ import RangeDatePicker from "./form-inputs/range-date-picker.vue";
 export default {
   components: {
     SingleDatePicker,
-    RangeDatePicker
+    RangeDatePicker,
   },
   data() {
     const srcs = {
@@ -270,25 +259,25 @@ export default {
 
     return {
       valid: false,
-      firstname: "",
-      lastname: "",
-      nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => v.length <= 10 || "Name must be less than 10 characters",
+      firstText: "",
+      secondText: "",
+      firstTextRules: [
+        (v) => !!v || "First Text is required",
+        (v) => v.length <= 10 || "First Text must be less than 10 characters",
       ],
       email: "",
       emailRules: [
         (v) => !!v || "E-mail is required",
         (v) => /.+@.+/.test(v) || "E-mail must be valid",
       ],
-      description:
+      textarea:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      descriptionRules: [
-        (v) => !!v || "Description is required",
+      textareaRules: [
+        (v) => !!v || "textarea is required",
         (v) =>
-          v.length >= 50 || "Description must be greater than 50 characters",
+          v.length >= 50 || "textarea must be greater than 50 characters",
         (v) =>
-          v.length <= 250 || "Description must be less than 250 characters",
+          v.length <= 250 || "textarea must be less than 250 characters",
       ],
       preferredLocationRules: [
         (v) => !!v || "Preffered location is required",
@@ -297,10 +286,10 @@ export default {
       startDate: new Date().toISOString().substr(0, 10),
       rangeDate: ["2022-01-10", "2022-09-20"],
       autoUpdate: true,
-      detailedSkills: ["HTML", "CSS/SCSS", "JavaScript"],
-      departments:['Development', 'Management', 'Training'],
+      detailedcheckboxes: ["HTML", "CSS/SCSS", "JavaScript"],
+      simpleCheckboxes: ["Chk 1", "Chk 2", "Chk 3"],
       isUpdating: false,
-      skillSet: [
+      checkboxeset: [
         { header: "Design" },
         { name: "HTML", group: "Design", avatar: srcs[1] },
         { name: "CSS/SCSS", group: "Design", avatar: srcs[2] },
@@ -312,14 +301,14 @@ export default {
         { name: "Angular", group: "Programming", avatar: srcs[1] },
         { name: "Vue", group: "Programming", avatar: srcs[3] },
       ],
-      toggleExclusive:[],
+      toggleExclusive: [],
       entries: [],
       model: null,
       search: null,
       isLoading: false,
-      skills: [],
-      genders: ["Male", "Female"],
-      gender: "Female",
+      checkboxes: [],
+      radioBtns: ["Radio1", "radio2"],
+      radioBtn: "Radio1",
       min: -50,
       max: 90,
       range: [-20, 70],
@@ -385,8 +374,8 @@ export default {
         "Wyoming",
       ],
       selectedPreferredLocation: [],
-      experience: 12,
-      relocate: false,
+      rangeSlider: 12,
+      switchBtn: false,
     };
   },
   computed: {
@@ -402,12 +391,12 @@ export default {
     },
     items() {
       return this.entries.map((entry) => {
-        const Description =
-          entry.Description.length > this.descriptionLimit
-            ? entry.Description.slice(0, this.descriptionLimit) + "..."
-            : entry.Description;
+        const textarea =
+          entry.textarea && entry.textarea.length > this.textareaLimit
+            ? entry.textarea.slice(0, this.textareaLimit) + "..."
+            : entry.textarea;
 
-        return Object.assign({}, entry, { Description });
+        return Object.assign({}, entry, { textarea });
       });
     },
     minStartDate() {
@@ -449,8 +438,8 @@ export default {
 
   methods: {
     remove(item) {
-      const index = this.detailedSkills.indexOf(item.name);
-      if (index >= 0) this.detailedSkills.splice(index, 1);
+      const index = this.detailedcheckboxes.indexOf(item.name);
+      if (index >= 0) this.detailedcheckboxes.splice(index, 1);
     },
     resetForm() {
       this.$refs.form.reset();
@@ -461,13 +450,17 @@ export default {
     setStartDate(event) {
       this.startDate = event;
     },
-     clearRangeDate() {
+    clearRangeDate() {
       this.rangeDate = null;
     },
     setRangeDate(event) {
       console.log(event);
       this.rangeDate = event;
     },
+    onSave(){
+      this.isUpdating = true
+      this.$refs.form.validate();
+    }
   },
 };
 </script>

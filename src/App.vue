@@ -1,28 +1,22 @@
 <template>
   <div id="app">
-  <v-app>
-    <app-bar data-app="app"/>
-   <!-- <v-container>
-      <router-view />
-    </v-container> -->
+    <v-app>
+      <app-bar data-app="app" />
     </v-app>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import AppBarWithNavigationDrawer from "./components/custom/app-bar/app-bar-with-navigation-drawer.vue";
-//import CustomAppBar2 from "./components/CustomAppBar2.vue"
 
 export default Vue.extend({
   name: "App",
-  components:{
-   "app-bar":AppBarWithNavigationDrawer
+  components: {
+    "app-bar": AppBarWithNavigationDrawer,
   },
-  data: () => ({
-    //
-  }),
 });
 </script>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .container {

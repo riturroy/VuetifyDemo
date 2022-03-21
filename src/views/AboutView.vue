@@ -1,10 +1,9 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <v-row no-gutters class="mt-8">
+    <v-row class="mt-8">
       <v-col
        cols="12"
-        sm="4"
+        sm="12"
       >
        <v-tooltip bottom>
        <template v-slot:activator="{ on, attrs }">
@@ -23,7 +22,7 @@
       </v-col>
        <v-col
        cols="12"
-        sm="4"
+        sm="12"
       >
        <v-tooltip bottom>
        <template v-slot:activator="{ on, attrs }">
@@ -42,7 +41,7 @@
        </v-col>
         <v-col
        cols="12"
-        sm="4"
+        sm="12"
       >
          <v-tooltip bottom>
        <template v-slot:activator="{ on, attrs }">
@@ -51,9 +50,29 @@
           v-bind="attrs"
           v-on="on"
           dark
-           @click="showAlert"
+           @click="showSuccessAlert"
         >
-          Show Alert
+          Show Success Alert
+        </v-btn>
+         <v-btn
+          color="primary"
+          v-bind="attrs"
+          v-on="on"
+          dark
+          style="margin-left: 16px"
+           @click="showWarningAlert"
+        >
+          Show Warning Alert
+        </v-btn>
+         <v-btn
+          color="primary"
+          v-bind="attrs"
+          v-on="on"
+          dark
+          style="margin-left: 16px"
+           @click="showFailureAlert"
+        >
+          Show Failure Alert
         </v-btn>
          </template>
         <span>Show Alert</span>
@@ -126,9 +145,9 @@
 </template>
 <script>
 import Vue from "vue";
-import CustomAlert from "../components/custom/custom-alert.vue";
-import ConfirmationDialog from "../components/custom/confirmation-dialog.vue";
-import CustomDialog from "../components/custom/custom-dialog.vue";
+import CustomAlert from "../components/custom/dialogs/custom-alert.vue";
+import ConfirmationDialog from "../components/custom/dialogs/confirmation-dialog.vue";
+import CustomDialog from "../components/custom/dialogs/custom-dialog.vue";
 
 
 export default Vue.extend({
@@ -154,16 +173,33 @@ export default Vue.extend({
     openDialog(){
       this.$refs.dialog.show();
     },
+
     openConfirmationPopup(){
       this.$refs.confirmationDialog.show();
     },
-    showAlert(){
+
+    showSuccessAlert(){
+      this.alertType="success";
       const alertRef = this.$refs.alert;
       alertRef.show();
     },
+
+    showFailureAlert(){
+      this.alertType="error";
+      const alertRef = this.$refs.alert;
+      alertRef.show();
+    },
+
+    showWarningAlert(){
+      this.alertType="warning";
+      const alertRef = this.$refs.alert;
+      alertRef.show();
+    },
+
     onCancel(){
       this.$refs.dialog.hide();
     },
+    
     onSave(){
       this.$refs.dialog.hide();
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="form-view">
-    <h4>User Form</h4>
+    <h4>Dummy Form with basic form inputs</h4>
     <form-inputs />
   </div>
 </template>

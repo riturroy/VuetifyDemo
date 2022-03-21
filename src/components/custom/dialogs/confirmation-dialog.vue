@@ -2,11 +2,9 @@
   <v-dialog :value="dialog" scrollable max-width="60%" persistent>
     <v-card>
       <v-card-title>{{ title }}</v-card-title>
-      <v-divider></v-divider>
       <v-card-text style="max-height: 70vh;">
         {{ content }}
       </v-card-text>
-      <v-divider></v-divider>
       <v-card-actions>
           <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="onConfirm">

@@ -6,9 +6,11 @@
       class="white--text align-end"
       height="200px"
       :src="imageSrc"
+      v-if="imageSrc"
     >
       <v-card-title>{{title}}</v-card-title>
     </v-img>
+    <v-card-title v-else>{{title}}</v-card-title>
 
     <v-card-subtitle class="pb-0">
       {{subtitle}}
