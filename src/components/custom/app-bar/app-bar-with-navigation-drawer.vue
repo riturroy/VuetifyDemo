@@ -51,6 +51,13 @@
             </v-list-item-icon>
             <v-list-item-title>Extras</v-list-item-title>
           </v-list-item>
+
+          <v-list-item @click="logoutUser">
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -62,11 +69,26 @@
   </v-card>
 </template>
 <script>
+import Vue from "vue";
+
 export default {
   data: () => ({
     drawer: false,
-    group: null
+    group: null,
   }),
+
+  methods: {
+    logoutUser() {
+      Vue.prototype.$keycloak
+        .logout({ redirectUri : "http://localhost:8081" })
+        .then((success) => {
+          console.log("--> log: logout success ", success);
+        })
+        .catch((error) => {
+          console.log("--> log: logout error ", error);
+        });
+    },
+  },
 };
 </script>
 <style scoped>

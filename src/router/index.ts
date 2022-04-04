@@ -10,17 +10,26 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta:{
+      isAuthenticated: true
+    }
   },
   {
     path: '/table',
     name: 'table',
-    component: TableView
+    component: TableView,
+    meta:{
+      isAuthenticated: true
+    }
   },
   {
     path: '/form',
     name: 'form',
-    component: FormView
+    component: FormView,
+    meta:{
+      isAuthenticated: true
+    }
   },
   {
     path: '/extras',

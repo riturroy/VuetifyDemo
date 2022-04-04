@@ -23,16 +23,16 @@
         <v-list-item-title>PWA enabled</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title>Login using keycloak</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
     
     <p style="margin-top:32px">Features to add next: </p>
      <v-list-item>
       <v-list-item-content>
-        <v-list-item-title>Service and API call</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-     <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title>Login using keycloak</v-list-item-title>
+        <v-list-item-title>Service and API call(with JWT token from keycloak in header)</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
      <v-list-item>
